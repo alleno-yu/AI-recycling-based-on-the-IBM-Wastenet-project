@@ -7,12 +7,17 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import gc
 import imageio
-folder_path = "dataset-resized"
+
+# put the image folder path here
+dataset_path = r"../../datasets"
+
+# put pickle folder path here
+pickle_path = r"../../pickles"
 
 # functions
-def class_to_index(folder_path):
+def class_to_index(dataset_path):
     class_dict = {}
-    for count, value in enumerate(os.listdir(folder_path)):
+    for count, value in enumerate(os.listdir(dataset_path)):
         class_dict[value] = count
     return class_dict
 
@@ -57,25 +62,35 @@ def train_val_test(x,y):
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.16, random_state=0)
     return x_train, y_train, x_val, y_val, x_test, y_test
 
-def dump_pickle(x_train, y_train, x_val, y_val, x_test, y_test):
-    pickle_out = open("x_train.pickle", "wb")
+def dump_pickle(x_train, y_train, x_val, y_val, x_test, y_test, pickle_path):
+
+    x_train_path = "x_train.pickle"
+    pickle_out = open(os.path.join(pickle_path, x_train_path), "wb")
     pickle.dump(x_train, pickle_out, protocol=4)
     pickle_out.close()
-    pickle_out = open("y_train.pickle", "wb")
+
+    y_train_path = "y_train.pickle"
+    pickle_out = open(os.path.join(pickle_path, y_train_path), "wb")
     pickle.dump(y_train, pickle_out, protocol=4)
     pickle_out.close()
 
-    pickle_out = open("x_val.pickle", "wb")
+    x_val_path = "x_val.pickle"
+    pickle_out = open(os.path.join(pickle_path, x_val_path), "wb")
     pickle.dump(x_val, pickle_out, protocol=4)
     pickle_out.close()
-    pickle_out = open("y_val.pickle", "wb")
+
+    y_val_path = "y_val.pickle"
+    pickle_out = open(os.path.join(pickle_path, y_val_path), "wb")
     pickle.dump(y_val, pickle_out, protocol=4)
     pickle_out.close()
 
-    pickle_out = open("x_test.pickle", "wb")
+    x_test_path = "x_test.pickle"
+    pickle_out = open(os.path.join(pickle_path, x_test_path), "wb")
     pickle.dump(x_test, pickle_out, protocol=4)
     pickle_out.close()
-    pickle_out = open("y_test.pickle", "wb")
+
+    y_test_path = "y_test.pickle"
+    pickle_out = open(os.path.join(pickle_path, y_test_path), "wb")
     pickle.dump(y_test, pickle_out, protocol=4)
     pickle_out.close()
 
@@ -85,8 +100,8 @@ def image_display(image_array):
 
 
 # Main part
-class_dict = class_to_index(folder_path)
-training_data = create_data(folder_path)
+class_dict = class_to_index(dataset_path)
+training_data = create_data(dataset_path)
 x, y = normalized_data(training_data)
 del training_data
 gc.collect()
@@ -94,4 +109,4 @@ x_train, y_train, x_val, y_val, x_test, y_test = train_val_test(x, y)
 del x, y
 gc.collect()
 print(len(x_train), len(y_train), len(x_val), len(y_val), len(x_test), len(y_test))
-dump_pickle(x_train, y_train, x_val, y_val, x_test, y_test)
+dump_pickle(x_train, y_train, x_val, y_val, x_test, y_test, pickle_path)

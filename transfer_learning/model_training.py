@@ -1,22 +1,33 @@
-from keras import Input, Model
+from keras import Model
 from keras.layers import Dense, Activation
 from googlenet.googlenet import create_googlenet
 from keras.regularizers import l2
 from keras.optimizers import Adam
 from transfer_learning.data_loader import load_data
 from tensorflow.keras.callbacks import TensorBoard
+import time
+import os
 
+# tensorboard log file path
+log_folder = r"C:\Users\allen\Desktop\Final_Project\IBM_Wastenet\logs"
 
-logdir = r"C:\Users\allen\Desktop\logs\lr0.01+decay0.9"
+# logfile name
+log_name = "googlenet+SGD0.1+decay_1e-6+time{}".format(int(time.time()))
 
-x_train, y_train, x_val, y_val = load_data()
+# pickle path
+pickle_path = r"../../pickles"
 
-tensorboard = TensorBoard(log_dir=logdir)
+# weight directory
+weight_path = r"../../googlenet_weights.h5"
 
-base_model = create_googlenet(r"googlenet_weights.h5")
+x_train, y_train, x_val, y_val = load_data(pickle_path)
+
+tensorboard = TensorBoard(log_dir=os.path.join(log_folder, log_name))
+print(os.path.join(log_folder, log_name))
+
+base_model = create_googlenet(weight_path)
 
 base_model.trainable = False
-
 
 loss1_drop_fc = base_model.outputs[0]
 loss1_classifier = Dense(5, kernel_regularizer=l2(0.0002))(loss1_drop_fc)
