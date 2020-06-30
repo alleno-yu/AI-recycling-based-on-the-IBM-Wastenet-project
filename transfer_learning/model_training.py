@@ -1,9 +1,9 @@
 from keras import Input, Model
 from keras.layers import Dense, Activation
-from googlenet import create_googlenet
+from googlenet.googlenet import create_googlenet
 from keras.regularizers import l2
 from keras.optimizers import Adam
-from initial_CNN import load_data
+from transfer_learning.data_loader import load_data
 from tensorflow.keras.callbacks import TensorBoard
 
 
@@ -28,11 +28,11 @@ loss2_classifier_act = Activation('softmax')(loss2_classifier)
 
 pool5_drop_7x7_s1 = base_model.outputs[2]
 loss3_classifier = Dense(5, kernel_regularizer=l2(0.0002))(pool5_drop_7x7_s1)
-loss3_classifier_act = Activation('softmax', name='prob')(loss3_classifier)
+loss3_classifier_act = Activation('softmax')(loss3_classifier)
 
 model = Model(inputs=base_model.inputs, outputs=[loss1_classifier_act, loss2_classifier_act, loss3_classifier_act])
 
-adam = Adam(lr=0.001, decay=0.9)
+adam = Adam(lr=0.001, decay=0.99)
 
 model.compile(optimizer=adam,
               loss="sparse_categorical_crossentropy",
