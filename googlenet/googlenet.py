@@ -11,6 +11,11 @@ from keras.optimizers import SGD
 from googlenet.pool_helper import PoolHelper
 from googlenet.lrn import LRN
 
+from numpy.random import seed
+seed(1)
+from tensorflow import set_random_seed
+set_random_seed(2)
+
 if keras.backend.backend() == 'tensorflow':
     from keras import backend as K
     import tensorflow as tf
@@ -164,7 +169,7 @@ def create_googlenet(weights_path=None):
     # loss3_classifier = Dense(1000, name='loss3/classifier', kernel_regularizer=l2(0.0002))(pool5_drop_7x7_s1)
     # loss3_classifier_act = Activation('softmax', name='prob')(loss3_classifier)
 
-    googlenet = Model(inputs=input, outputs=[loss1_drop_fc,loss2_drop_fc,pool5_drop_7x7_s1])
+    googlenet = Model(inputs=input, outputs=[loss1_drop_fc, loss2_drop_fc, pool5_drop_7x7_s1])
 
     if weights_path:
         googlenet.load_weights(weights_path, by_name=True)
