@@ -116,7 +116,7 @@ class CyclicLR(Callback):
         if self.clr_iterations == 0:
             K.set_value(self.model.optimizer.lr, self.base_lr)
         else:
-            K.set_value(self.model.optimizer.lr, self.clr())        
+            K.set_value(self.model.optimizer.lr, self.clr())
             
     def on_batch_end(self, epoch, logs=None):
         
@@ -132,6 +132,6 @@ class CyclicLR(Callback):
         
         K.set_value(self.model.optimizer.lr, self.clr())
 
-        # print(K.eval(self.model.optimizer.lr))
+        print(K.eval(self.model.optimizer.lr))
 
 

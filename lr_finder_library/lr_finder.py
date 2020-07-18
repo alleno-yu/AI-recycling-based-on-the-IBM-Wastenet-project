@@ -3,14 +3,9 @@ import math
 from keras.callbacks import LambdaCallback
 import keras.backend as K
 import numpy as np
-from matplotlib.ticker import LogLocator, NullFormatter
+from matplotlib.ticker import LogLocator, NullFormatter, MultipleLocator
 
 class LRFinder:
-    """
-    Plots the change of the loss function of a Keras model when the learning rate is exponentially increasing.
-    See for details:
-    https://towardsdatascience.com/estimating-optimal-learning-rate-for-a-deep-neural-network-ce32f2556ce0
-    """
 
     def __init__(self, model, validation_data):
         self.model = model
@@ -127,6 +122,8 @@ class LRFinder:
         fig, ax = plt.subplots()
         ax.plot(lrs_sm, losses_sm)
         ax.set_xscale(x_scale)
+        # ax.yaxis.set_major_locator(LinearLocator(base=1.0, numticks=12))
+        ax.yaxis.set_major_locator(MultipleLocator(1))
         locmaj = LogLocator(base=10, numticks=12)
         ax.xaxis.set_major_locator(locmaj)
 

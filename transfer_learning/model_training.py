@@ -1,8 +1,8 @@
 from keras.utils import to_categorical
-from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
+from tensorflow.keras.callbacks import EarlyStopping
+from keras.callbacks import LearningRateScheduler
 import matplotlib.pyplot as plt
-from sklearn.model_selection import StratifiedKFold, KFold
-from matplotlib.ticker import LogLocator, NullFormatter
+from sklearn.model_selection import KFold
 from tensorflow import set_random_seed
 from numpy.random import seed
 from pathlib import Path
@@ -11,8 +11,8 @@ import statistics
 import os
 
 from transfer_learning.model_building import create_model
-from transfer_learning.data_loader import load_data
-from cyclic_lr.clr_callback import CyclicLR
+from data_preparation.data_loader import load_data
+from transfer_learning.learning_rate import step_decay
 import transfer_learning.config as config
 
 # base logging = "2", output error and fatal
@@ -23,7 +23,7 @@ set_random_seed(2)
 seed(2)
 
 # load data and label
-x, y = load_data(config.pickle_path)
+x_train, y_train, x_test, y_test = load_data(config.pickle_path)
 
 # initialise empty val_acc and val_loss list
 val_acc_list = []
@@ -31,13 +31,13 @@ val_loss_list = []
 val_final_classifier_loss_list = []
 
 # call cyclicLR
-clr = CyclicLR(base_lr=config.base_lr, max_lr=config.max_lr,
-               step_size=config.step_size)
+# clr = CyclicLR(base_lr=config.base_lr, max_lr=config.max_lr,
+#                step_size=config.step_size)
 
 # define callbacks
 my_callbacks = [
-    EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=config.patience_epochs),
-    clr
+    EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=config.patience_epochs)
+    ,LearningRateScheduler(step_decay)
 ]
 
 # call kFold

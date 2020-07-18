@@ -1,6 +1,7 @@
 from keras import Model
 from keras.layers import Dense, Activation
 from keras.regularizers import l2
+from keras.optimizers import SGD
 
 from tensorflow import set_random_seed
 from numpy.random import seed
@@ -44,10 +45,13 @@ def create_model(weight_path=config.weight_path, unfreeze_list=config.unfreeze_l
     model = Model(inputs=base_model.inputs,
                   outputs=[loss1_classifier_act, loss2_classifier_act, loss3_classifier_act])
 
+    sgd = SGD(momentum=0.9, nesterov=True)
+
     # compile model
-    model.compile(optimizer="Adam",
+    model.compile(optimizer=sgd,
                   loss=loss,
                   metrics=["accuracy"])
 
     print(model.summary())
+
     return model
