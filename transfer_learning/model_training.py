@@ -2,7 +2,7 @@ from keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping
 from keras.callbacks import LearningRateScheduler
 import matplotlib.pyplot as plt
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 from tensorflow import set_random_seed
 from numpy.random import seed
 from pathlib import Path
@@ -22,8 +22,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 set_random_seed(2)
 seed(2)
 
-# load data and label
-x_train, y_train, x_test, y_test = load_data(config.pickle_path)
+# load training data and label
+data = load_data()
+x, y = data.load_train_data()
 
 # initialise empty val_acc and val_loss list
 val_acc_list = []
@@ -36,12 +37,12 @@ val_final_classifier_loss_list = []
 
 # define callbacks
 my_callbacks = [
-    EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=config.patience_epochs)
+    EarlyStopping(monitor='val_loss', mode='min', min_delta=0.01, verbose=1, patience=config.patience_epochs)
     ,LearningRateScheduler(step_decay)
 ]
 
 # call kFold
-kfold = KFold(n_splits=config.nb_folds)
+kfold = StratifiedKFold(n_splits=config.nb_folds)
 
 # initialise i
 i = 0
@@ -88,7 +89,6 @@ for train, val in kfold.split(x, y):
     # plt.ylabel("learning rate")
     # plt.show()
 
-
     # plot figures for val_acc
     plt.figure()
     plt.plot(history.history['final_classifier_acc'])
@@ -119,5 +119,5 @@ print("validation losses are {}".format(val_loss_list))
 print("the average validation loss is {:.2f}".format(statistics.mean(val_loss_list)))
 
 val_final_classifier_loss_list = list(np.around(np.array(val_final_classifier_loss_list), 2))
-print("validation losses are {}".format(val_final_classifier_loss_list))
-print("the average validation loss is {:.2f}".format(statistics.mean(val_final_classifier_loss_list)))
+print("final layer validation losses are {}".format(val_final_classifier_loss_list))
+print("the average final layer validation loss is {:.2f}".format(statistics.mean(val_final_classifier_loss_list)))

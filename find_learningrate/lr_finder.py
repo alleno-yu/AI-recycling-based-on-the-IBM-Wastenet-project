@@ -5,6 +5,8 @@ import keras.backend as K
 import numpy as np
 from matplotlib.ticker import LogLocator, NullFormatter, MultipleLocator
 
+# https://github.com/surmenok/keras_lr_finder
+
 class LRFinder:
 
     def __init__(self, model, validation_data):
@@ -20,12 +22,7 @@ class LRFinder:
         self.lrs.append(lr)
 
         x, y = self.validation_data
-        val_loss = self.model.evaluate(x, y, verbose=0)[0]
-
-        # Log the loss
-        # print(logs)
-        # loss = logs["loss"]
-        loss = val_loss
+        loss = self.model.evaluate(x, y, verbose=0)[0]
 
         self.losses.append(loss)
 
@@ -71,42 +68,6 @@ class LRFinder:
         # Restore the original learning rate
         K.set_value(self.model.optimizer.lr, original_lr)
 
-    def find_generator(self, generator, start_lr, end_lr, epochs=1, steps_per_epoch=None, **kw_fit):
-        if steps_per_epoch is None:
-            try:
-                steps_per_epoch = len(generator)
-            except (ValueError, NotImplementedError) as e:
-                raise e('`steps_per_epoch=None` is only valid for a'
-                        ' generator based on the '
-                        '`keras.utils.Sequence`'
-                        ' class. Please specify `steps_per_epoch` '
-                        'or use the `keras.utils.Sequence` class.')
-        self.lr_mult = (float(end_lr) / float(start_lr)) ** (float(1) / float(epochs * steps_per_epoch))
-
-        # Save weights into a file
-        initial_weights = self.model.get_weights()
-
-        # Remember the original learning rate
-        original_lr = K.get_value(self.model.optimizer.lr)
-
-        # Set the initial learning rate
-        K.set_value(self.model.optimizer.lr, start_lr)
-
-        callback = LambdaCallback(on_batch_end=lambda batch,
-                                                      logs: self.on_batch_end(batch, logs))
-
-        self.model.fit_generator(generator=generator,
-                                 epochs=epochs,
-                                 steps_per_epoch=steps_per_epoch,
-                                 callbacks=[callback],
-                                 **kw_fit)
-
-        # Restore the weights to the state before model fitting
-        self.model.set_weights(initial_weights)
-
-        # Restore the original learning rate
-        K.set_value(self.model.optimizer.lr, original_lr)
-
     def plot_loss(self, n_skip_beginning=10, n_skip_end=5, x_scale='log'):
         """
         Plots the loss.
@@ -115,28 +76,20 @@ class LRFinder:
             n_skip_end - number of batches to skip on the right.
         """
 
-
         lrs_sm = np.array(self.lrs[n_skip_beginning:-n_skip_end])
         losses_sm = np.array(self.losses[n_skip_beginning:-n_skip_end])
-
         fig, ax = plt.subplots()
         ax.plot(lrs_sm, losses_sm)
         ax.set_xscale(x_scale)
-        # ax.yaxis.set_major_locator(LinearLocator(base=1.0, numticks=12))
         ax.yaxis.set_major_locator(MultipleLocator(1))
         locmaj = LogLocator(base=10, numticks=12)
         ax.xaxis.set_major_locator(locmaj)
-
         locmin = LogLocator(base=10.0, subs=(0.2, 0.4, 0.6, 0.8), numticks=12)
         ax.xaxis.set_minor_formatter(NullFormatter())
         ax.xaxis.set_minor_locator(locmin)
-
         ax.set_ylabel("val_loss")
         ax.set_xlabel("learning rate (log scale)")
-
         plt.show()
-
-
 
     def plot_loss_change(self, sma=1, n_skip_beginning=10, n_skip_end=5, y_lim=(-0.01, 0.01)):
         """
