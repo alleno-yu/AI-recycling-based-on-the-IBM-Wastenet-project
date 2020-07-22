@@ -33,14 +33,74 @@ model = create_model()
 lr_finder = LRFinder(model, validation_data=(x_val, [y_val, y_val, y_val]))
 
 # call find function
-lr_finder.find(x_train, [y_train, y_train, y_train], start_lr=1e-10, end_lr=1, batch_size=32, epochs=5, verbose=2)
+lr_finder.find(x_train, [y_train, y_train, y_train], start_lr=1e-10, end_lr=1, batch_size=256, epochs=5, verbose=2)
 
-# find learning rate for model 4 --- Unfreeze Conv model 1+ Dense
-lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=15)
-lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=50, y_lim=(-0.1, 0.1))
-print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=50))
+# find learning rate for best selected model bs128
+lr_finder.plot_loss(n_skip_beginning=1, n_skip_end=1)
+lr_finder.plot_loss_change(sma=1, n_skip_beginning=1, n_skip_end=1, y_lim=(-0.25, 0.25))
+print(lr_finder.get_best_lr(sma=1, n_skip_beginning=1, n_skip_end=1))
 
-# find learning rate for model 3 --- Unfreeze Conv model 1
+# find learning rate for best selected model bs64
+# lr_finder.plot_loss(n_skip_beginning=50, n_skip_end=10)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=50, n_skip_end=30, y_lim=(-0.15, 0.15))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=50, n_skip_end=30))
+
+# find learning rate for model 14 --- Unfreeze Conv7+Aux1
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=20)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 13 --- Unfreeze Conv9
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=20)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 12 --- Unfreeze Conv8
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=5)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 11 --- Unfreeze Conv7
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=10)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 10 --- Unfreeze Conv6+Auxiliary1 model
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=15)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=50, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=50))
+
+# find learning rate for model 9 --- Unfreeze Conv6 model
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=20)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 8 --- Unfreeze Conv5 model
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=20)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 7 --- Unfreeze Conv4 model
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=15)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 6 --- Unfreeze Conv3 model
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=15)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 5 --- Unfreeze Conv2 model
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=25)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=60, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=60))
+
+# find learning rate for model 4 --- Unfreeze Conv1+Dense model
+# lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=15)
+# lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=50, y_lim=(-0.1, 0.1))
+# print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=50))
+
+# find learning rate for model 3 --- Unfreeze Conv1 model
 # lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=25)
 # lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=65, y_lim=(-0.1, 0.1))
 # print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=65))
@@ -54,5 +114,3 @@ print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=50))
 # lr_finder.plot_loss(n_skip_beginning=100, n_skip_end=30)
 # lr_finder.plot_loss_change(sma=1, n_skip_beginning=100, n_skip_end=70, y_lim=(-0.075, 0.1))
 # print(lr_finder.get_best_lr(sma=1, n_skip_beginning=100, n_skip_end=70))
-
-
