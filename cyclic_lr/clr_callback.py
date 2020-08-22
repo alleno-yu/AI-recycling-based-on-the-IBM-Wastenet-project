@@ -132,6 +132,6 @@ class CyclicLR(Callback):
         
         K.set_value(self.model.optimizer.lr, self.clr())
 
-        print(K.eval(self.model.optimizer.lr))
+        # print(K.eval(self.model.optimizer.lr))
 
 

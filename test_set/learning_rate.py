@@ -4,9 +4,12 @@ import math
 def step_decay(epoch):
 
     # learning rate config
-    initial_lrate = 0.0007
+    initial_lrate = 0.000715739
     drop = 0.96
     epochs_drop = 8
+
     lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
+
+    print("learning rate is: {:.2e}".format(lrate))
 
     return lrate

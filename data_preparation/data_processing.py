@@ -1,4 +1,6 @@
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import imageio
@@ -51,8 +53,10 @@ class process_data:
         for features, labels in self.training_data:
             self.x.append(features)
             self.y.append(labels)
+        # self.x_train, self.x_test, self.y_train, self.y_test = \
+        #     train_test_split(self.x, self.y, stratify=self.y, test_size=self.test_size, random_state=self.random_state)
         self.x_train, self.x_test, self.y_train, self.y_test = \
-            train_test_split(self.x, self.y, stratify=self.y, test_size=self.test_size, random_state=self.random_state)
+            train_test_split(self.x, self.y, test_size=self.test_size, random_state=self.random_state)
         self.x_train = np.array(self.x_train)
         self.x_test = np.array(self.x_test)
         self.y_train = np.array(self.y_train)

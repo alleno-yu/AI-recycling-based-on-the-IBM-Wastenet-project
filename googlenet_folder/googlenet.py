@@ -4,22 +4,23 @@ from PIL import Image
 import numpy as np
 import keras
 
-from keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, Concatenate, Reshape, Activation
-from keras.models import Model
-from keras.regularizers import l2
-from keras.optimizers import SGD
-from googlenet.pool_helper import PoolHelper
-from googlenet.lrn import LRN
+from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, Concatenate, Reshape, Activation
+from tensorflow.keras.models import Model
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.optimizers import SGD
+from googlenet_folder.pool_helper import PoolHelper
+from googlenet_folder.lrn import LRN
 
-from numpy.random import seed
-seed(1)
-from tensorflow import set_random_seed
-set_random_seed(2)
+import os
+# base logging = "2", output error and fatal
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 
 if keras.backend.backend() == 'tensorflow':
     from keras import backend as K
     import tensorflow as tf
     from keras.utils.conv_utils import convert_kernel
+
 
 
 def create_googlenet(weights_path=None):

@@ -5,5 +5,5 @@ dataset_path = r"../../datasets"
 pickle_path = r"../../pickles"
 
 # hyper-parameters
-test_size = 0.17
-random_state = 25
+test_size = 0.1
+random_state = 45

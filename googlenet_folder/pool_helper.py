@@ -1,4 +1,4 @@
-from keras.layers.core import Layer
+from tensorflow.keras.layers import Layer
 
 
 class PoolHelper(Layer):
