@@ -1,22 +1,19 @@
-from transfer_learning.model_building import create_model
-import matplotlib.pyplot as plt
 import imageio
 from PIL import Image
 import numpy as np
 import os
 import random
 
-model = create_model()
+from googlenet_model.googlenet import create_googlenet
+from config import images_path, waste_class, weights_path
 
-model.load_weights(r"C:\Users\allen\Desktop\Final_Project\IBM_Wastenet\model\Final_Model.h5")
-waste_class = ["cardboard", "glass", "metal", "paper", "plastic"]
-# path = r"C:\Users\allen\Desktop\Final_Project\IBM_Wastenet\test_set_images"
-path = r"C:\Users\allen\Desktop\Final_Project\IBM_Wastenet\test_set_images"
+model = create_googlenet(weights_path)
 
-images = os.listdir(path)
+
+images = os.listdir(images_path)
 
 random_image = random.choice(images)
-random_image = os.path.join(path, random_image)
+random_image = os.path.join(images_path, random_image)
 
 img = imageio.imread(random_image, pilmode='RGB')
 img = np.array(Image.fromarray(img).resize((224, 224)))

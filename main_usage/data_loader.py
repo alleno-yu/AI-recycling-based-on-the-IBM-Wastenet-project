@@ -1,7 +1,7 @@
 import pickle
 import os
 
-import Final_Project.config as config
+import config
 
 class load_data:
 

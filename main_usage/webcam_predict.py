@@ -1,14 +1,14 @@
-from transfer_learning.model_building import create_model
 import cv2
 import numpy as np
 from PIL import Image
 from collections import deque
 
-model = create_model()
+from googlenet_model.googlenet import create_googlenet
+from config import waste_class, weights_path
 
-model.load_weights(r"C:\Users\allen\Desktop\Final_Project\IBM_Wastenet\model\Final_Model.h5")
+model = create_googlenet(weights_path)
+
 video = cv2.VideoCapture(0)
-waste_class = ["cardboard", "glass", "metal", "paper", "plastic"]
 Q = deque(maxlen=64)
 
 while True:
@@ -42,8 +42,6 @@ while True:
                     1.25, (0, 0, 255), 5)
         cv2.putText(output, probability, (35, 120), cv2.FONT_HERSHEY_SIMPLEX,
                     1.25, (0, 0, 255), 5)
-
-
 
 
         cv2.imshow("Output", output)

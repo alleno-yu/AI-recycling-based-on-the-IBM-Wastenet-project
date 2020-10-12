@@ -1,12 +1,11 @@
 from __future__ import print_function
-
 import keras
 
 from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, Concatenate, Reshape, Activation
 from tensorflow.keras.models import Model
 from tensorflow.keras.regularizers import l2
-from Final_Project.googlenet_model.pool_helper import PoolHelper
-from Final_Project.googlenet_model.lrn import LRN
+from googlenet_model.pool_helper import PoolHelper
+from googlenet_model.lrn import LRN
 
 
 from tensorflow import set_random_seed

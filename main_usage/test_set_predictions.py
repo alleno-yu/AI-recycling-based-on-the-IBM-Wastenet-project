@@ -1,7 +1,7 @@
 from keras.utils import to_categorical
-from Final_Project.googlenet_model.googlenet import create_googlenet
-from Final_Project.data_loader import load_data
-from Final_Project.config import weights_path
+from googlenet_model.googlenet import create_googlenet
+from main_usage.data_loader import load_data
+from config import weights_path
 from tensorflow.keras.optimizers import Adam
 
 from tensorflow import set_random_seed
