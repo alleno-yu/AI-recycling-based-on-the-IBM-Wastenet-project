@@ -1,7 +1,10 @@
 import pickle
 import os
 
-import config
+from main_usage import config
+
+# load test set pickles
+# x_test is the image converted matrix, and y_test is the labels array
 
 class load_data:
 

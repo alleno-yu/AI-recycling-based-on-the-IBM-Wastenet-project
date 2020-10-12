@@ -7,13 +7,13 @@ from tensorflow.keras.regularizers import l2
 from googlenet_model.pool_helper import PoolHelper
 from googlenet_model.lrn import LRN
 
+# this is a modified version of the googlenet model, developed by joelouismarino, and provided in this link: https://gist.github.com/joelouismarino/a2ede9ab3928f999575423b9887abd14
 
 from tensorflow import set_random_seed
 from numpy.random import seed
 
 set_random_seed(2)
 seed(2)
-
 
 import os
 
@@ -26,6 +26,7 @@ if keras.backend.backend() == 'tensorflow':
     import tensorflow as tf
     from keras.utils.conv_utils import convert_kernel
 
+# build model structure, mostly GoogleNet with the final classifier and auxiliary classifiers changed to 5 class classifictaion dense layer
 def create_googlenet(weights_path=None):
     # creates GoogLeNet a.k.a. Inception v1 (Szegedy, 2015)
     input = Input(shape=(3, 224, 224))

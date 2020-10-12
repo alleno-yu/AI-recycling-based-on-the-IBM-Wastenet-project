@@ -7,7 +7,7 @@ elif K.backend() == 'tensorflow':
 else:
     raise NotImplementedError
 
-
+# developed by joelouismarino, and provided in this link: https://gist.github.com/joelouismarino/a2ede9ab3928f999575423b9887abd14
 
 
 class LRN(Layer):
