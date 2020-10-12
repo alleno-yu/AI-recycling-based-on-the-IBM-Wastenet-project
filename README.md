@@ -7,3 +7,9 @@
 ##### 2.1 Python 3.6
 ##### 2.2 tensorflow-gpu 1.14 and keras 2.3.1
 ##### 2.3 no specific version requirements on packages numpy, cv2, PIL, imageio
+## 3. Repository usage
+##### 3.1 clone this repository
+##### 3.2 put the correct weights, pickles, and test images path into config file
+##### 3.3 run webcam prediction file to get real-time classification, performs better if have pure white background, link of demonstration video: https://youtu.be/uG0b3mEjA1Q
+##### 3.4 run test set prediction file to get the test set accuracy, around 94% on 239 images
+##### 3.4 run image prediction file to randomly predict images under the test_image folder
